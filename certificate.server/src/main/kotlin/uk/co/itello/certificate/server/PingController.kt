@@ -13,21 +13,21 @@ class PingController {
     }
     @RequestMapping("/ping")
     fun ping(req: HttpServletRequest): String {
-
-
         LOG.info("Requesting client cert")
+
         Thread.sleep(500) // time for logging
+
         val cert = extractCertificate(req)
-        LOG.info("Client cert name: [{}]", cert.subjectDN)
+        LOG.info("Client subjectDN: [{}]", cert.subjectDN)
 
         return "pong"
     }
 
     @Suppress("UNCHECKED_CAST")
     protected fun extractCertificate(req: HttpServletRequest): X509Certificate {
-        val certs = req.getAttribute("javax.servlet.request.X509Certificate") as Array<X509Certificate>
-        if (certs.isNotEmpty()) {
-            return certs[0]
+        val certs = req.getAttribute("javax.servlet.request.X509Certificate") as Array<X509Certificate>?
+        certs?.let {
+            if (it.isNotEmpty()) return it[0]
         }
         throw RuntimeException("No X509 client certificate found in request")
     }
