@@ -14,10 +14,10 @@ echo "Generate Private Key"
 openssl genrsa -des3 -out ${OUTPUT_DIR}/server.key -passout pass:${DEFAULT_PASSWORD} 2048
 
 echo "Create CSR"
-openssl req -new -key ${OUTPUT_DIR}/server.key -out ${OUTPUT_DIR}/server.csr -subj "/C=UK/ST=Avon/L=Bath/O=Pay360/CN=rootcsr" -passin pass:${DEFAULT_PASSWORD}
+openssl req -new -key ${OUTPUT_DIR}/server.key -out ${OUTPUT_DIR}/server.csr -subj "/C=UK/ST=Avon/L=Bath/O=ITello/CN=rootcsr" -passin pass:${DEFAULT_PASSWORD}
 
 echo "Generate Root Certificate"
-openssl req -x509 -new -nodes -key ${OUTPUT_DIR}/server.key -sha256 -days 1825 -out ${OUTPUT_DIR}/server.pem -subj "/C=UK/ST=Avon/L=Bath/O=Pay360/CN=rootcert" -passin pass:${DEFAULT_PASSWORD}
+openssl req -x509 -new -nodes -key ${OUTPUT_DIR}/server.key -sha256 -days 1825 -out ${OUTPUT_DIR}/server.pem -subj "/C=UK/ST=Avon/L=Bath/O=ITello/CN=rootcert" -passin pass:${DEFAULT_PASSWORD}
 
 echo "Create the issued certificate"
 openssl x509 -req -in ${OUTPUT_DIR}/server.csr -CA ${OUTPUT_DIR}/server.pem -CAkey ${OUTPUT_DIR}/server.key -CAcreateserial -out ${OUTPUT_DIR}/server.crt -days 1825 -sha256 -extfile ${WORKING_DIR}/server.cert.config  -passin pass:${DEFAULT_PASSWORD}
