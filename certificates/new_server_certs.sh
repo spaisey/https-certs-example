@@ -27,9 +27,9 @@ openssl genrsa -out ${OUTPUT_DIR}/server.key 2048
 log "Creating client key"
 openssl genrsa -out ${OUTPUT_DIR}/client.key 2048
 log "Creating server certificate signing request"
-openssl req -new -key ${OUTPUT_DIR}/server.key -out ${OUTPUT_DIR}/server.csr -subj "/C=UK/ST=Avon/L=Bath/O=Pay360/CN=server.pay360.com" -passin pass:${DEFAULT_PASSWORD}
+openssl req -new -key ${OUTPUT_DIR}/server.key -out ${OUTPUT_DIR}/server.csr -subj "/C=UK/ST=Avon/L=Bath/O=Itello/CN=server.itello.co.uk" -passin pass:${DEFAULT_PASSWORD}
 log "Creating client certificate signing request"
-openssl req -new -key ${OUTPUT_DIR}/client.key -out ${OUTPUT_DIR}/client.csr -subj "/C=UK/ST=Avon/L=Bath/O=Pay360/CN=testclient.pay360.com" -passin pass:${DEFAULT_PASSWORD}
+openssl req -new -key ${OUTPUT_DIR}/client.key -out ${OUTPUT_DIR}/client.csr -subj "/C=UK/ST=Avon/L=Bath/O=Itello/CN=testclient.itello.co.uk" -passin pass:${DEFAULT_PASSWORD}
 # ----------------------
 
 # ----------------------
@@ -67,9 +67,9 @@ keytool -import -v -alias root -file ${OUTPUT_DIR}/root.pem -keystore ${OUTPUT_D
 log "Create JWT key pair"
 ssh-keygen -t rsa -b 2048 -m PEM -f ${OUTPUT_DIR}/jwt.key -N ${DEFAULT_PASSWORD}
 log "Create JWT CA"
-openssl req -x509 -new -nodes -key ${OUTPUT_DIR}/jwt.key -sha256 -days 1825 -out ${OUTPUT_DIR}/jwt.pem -subj "/C=UK/ST=Avon/L=Bath/O=Pay360/CN=jwtCA.pay360.com" -passin pass:${DEFAULT_PASSWORD}
+openssl req -x509 -new -nodes -key ${OUTPUT_DIR}/jwt.key -sha256 -days 1825 -out ${OUTPUT_DIR}/jwt.pem -subj "/C=UK/ST=Avon/L=Bath/O=Itello/CN=jwtCA.itello.co.uk" -passin pass:${DEFAULT_PASSWORD}
 log "Create JWT CSR"
-openssl req -new -key ${OUTPUT_DIR}/jwt.key -out ${OUTPUT_DIR}/jwt.csr -subj "/C=UK/ST=Avon/L=Bath/O=Pay360/CN=jwt.pay360.com" -passin pass:${DEFAULT_PASSWORD}
+openssl req -new -key ${OUTPUT_DIR}/jwt.key -out ${OUTPUT_DIR}/jwt.csr -subj "/C=UK/ST=Avon/L=Bath/O=Itello/CN=jwt.itello.co.uk" -passin pass:${DEFAULT_PASSWORD}
 log "Sign JWT Cert"
 openssl x509 -req -in ${OUTPUT_DIR}/jwt.csr -CA ${OUTPUT_DIR}/jwt.pem -CAkey ${OUTPUT_DIR}/jwt.key -CAcreateserial -out ${OUTPUT_DIR}/jwt.crt -days 1825 -sha256 -extfile ${WORKING_DIR}/jwt.cert.config  -passin pass:${DEFAULT_PASSWORD}
 log "Create JWT PKS12"
